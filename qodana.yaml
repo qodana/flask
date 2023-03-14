@@ -1,0 +1,4 @@
+version: 1.0
+bootstrap: |
+  pip install -r requirements/dev.txt
+  pip install -e .
