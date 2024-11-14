@@ -46,7 +46,7 @@ pyproject-api==1.5.0
     # via tox
 pyproject-hooks==1.0.0
     # via build
-pyyaml==6.0
+pyyaml==6.0.2
     # via pre-commit
 toposort==1.9
     # via pip-compile-multi
