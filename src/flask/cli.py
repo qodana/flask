@@ -468,7 +468,7 @@ _app_option = click.Option(
 def _set_debug(ctx: click.Context, param: click.Option, value: bool) -> bool | None:
     # If the flag isn't provided, it will default to False. Don't use
     # that, let debug be set by env in that case.
-    source = ctx.get_parameter_source(param.name)  # type: ignore[arg-type]
+    source = ctx.get_parameter_source(param.name)
 
     if source is not None and source in (
         ParameterSource.DEFAULT,
@@ -777,7 +777,7 @@ def show_server_banner(debug: bool, app_import_path: str | None) -> None:
         click.echo(f" * Debug mode: {'on' if debug else 'off'}")
 
 
-class CertParamType(click.ParamType):
+class CertParamType(click.ParamType[str | os.PathLike[str] | ssl.SSLContext]):
     """Click option type for the ``--cert`` option. Allows either an
     existing file, the string ``'adhoc'``, or an import for a
     :class:`~ssl.SSLContext` object.
@@ -803,7 +803,7 @@ class CertParamType(click.ParamType):
         try:
             return self.path_type(value, param, ctx)
         except click.BadParameter:
-            value = click.STRING(value, param, ctx).lower()
+            value = click.STRING(value, param, ctx).lower()  # type: ignore[union-attr]
 
             if value == "adhoc":
                 try:
