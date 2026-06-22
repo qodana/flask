@@ -7,6 +7,7 @@ on:
 
 jobs:
   qodana:
+    if: false  # Disabled - using new Qodana workflow instead
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
