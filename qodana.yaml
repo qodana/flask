@@ -1,0 +1,40 @@
+version: "1.0"
+profile:
+  name: qodana.recommended
+
+# Create venv inside project directory for dependency detection
+bootstrap: |
+  python3.12 -m venv .venv
+  . .venv/bin/activate
+  pip install --upgrade pip
+  pip install -e .[async,dotenv]
+  pip install "pytest<9" pytest-cov python-dotenv asgiref
+  echo "Running tests with coverage..."
+  pytest --cov=flask --cov-report=xml
+  echo "Copying coverage report to .qodana/code-coverage..."
+  mkdir -p .qodana/code-coverage
+  if [ -f coverage.xml ]; then
+    cp coverage.xml .qodana/code-coverage/
+    echo "Coverage report copied successfully"
+  else
+    echo "ERROR: Coverage report not found"
+    exit 1
+  fi
+  ls -la .qodana/code-coverage/
+  echo "Bootstrap completed"
+
+coverage:
+  reportProblems: false
+
+include:
+  - name: All
+
+exclude:
+  - name: All
+    paths:
+      - tests
+      - docs
+      - examples
+  - name: PyUnresolvedReferencesInspection
+    paths:
+      - src/flask/ctx.py

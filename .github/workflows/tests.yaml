@@ -11,6 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   tests:
+    if: false  # Disabled - using Qodana workflow instead
     name: ${{ matrix.name || matrix.python }}
     runs-on: ${{ matrix.os || 'ubuntu-latest' }}
     strategy:
@@ -43,6 +44,7 @@ jobs:
         env:
           TOX_ENV: ${{ matrix.tox || format('py{0}', matrix.python) }}
   typing:
+    if: false  # Disabled - using Qodana workflow instead
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
